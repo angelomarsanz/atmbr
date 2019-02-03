@@ -1,3 +1,6 @@
+<?php
+    use Cake\Routing\Router;
+?>
 <style>
     .iconoMenu
     {
@@ -16,8 +19,8 @@
 </style>
 <div class="container-fluid fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/atmbr/users/home">
-        <img src="/atmbr/img/tmbr-icon.png" width="60" height="30" alt="Tu mundo bienes raíces">
+    <a class="navbar-brand" href=<?= Router::url(["controller" => "Users", "action" => "home"]) ?>>
+        <img src=<?= Router::url(["controller" => "img", "action" => "tmbr-icon.png"]) ?> width="60" height="30" alt="Tu mundo bienes raíces">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
