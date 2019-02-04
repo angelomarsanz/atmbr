@@ -3,6 +3,14 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use Cake\ORM\TableRegistry;
+
+use Cake\I18n\Time;
+
+use Cake\Mailer\Email;
+
+use Cake\Filesystem\File;
+
 /**
  * Users Controller
  *
@@ -21,8 +29,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
         
-        $this->Auth->allow(['add', 'edit', 'testComunicationSend', 'addWeb', 'addWebF', 'checkData', 'addWebBasic', 'addWebBasicF', 'mailPromoter', 'mailBudget', 'restore', 'recoverPassword', 
-            'mailRecoverPassword']);
+        $this->Auth->allow(['add', 'edit', 'recuperarClave']);
     }
     
     public function isAuthorized($user)
@@ -211,4 +218,119 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    public function recuperarClave()
+    {      	       	
+		setlocale(LC_TIME, 'es_VE', 'es_VE.utf-8', 'es_VE.utf8'); 
+		date_default_timezone_set('America/Caracas');
+
+		$currentDate = time::now();
+
+        $user = $this->Users->newEntity();
+		
+        if ($this->request->is('post')) 
+        {
+            $user = $this->Users->patchEntity($user, $this->request->data);
+							
+			$ultimoRegistro = $this->Users->find('all', ['conditions' => [['Users.role' => $user->role], ['Users.email' => $user->email]], 
+			'order' => ['Users.created' => 'DESC']]);
+    
+            $contadorRegistro = $ultimoRegistro->count();
+		
+			if ($contadorRegistro > 0)
+			{
+                $fila = $ultimoRegistro->first();       
+             
+				$user = $this->Users->get($fila->id);
+			
+				$primerNombreTrim = trim($user->primer_nombre);
+				
+				$primerNombre = strtoupper($primerNombreTrim);
+				
+				$primerApellidoTrim = trim($user->primer_apellido);
+				
+				$primerApellido = strtoupper($primerApellidoTrim);
+			
+				$password = substr($primerNombre, 0, 1) . substr($primerApellido, 0, 1) . $currentDate->second . $currentDate->minute . '$';
+
+				$user->password = $password;
+							
+				if ($this->Users->save($user)) 
+				{					
+					$result = $this->emailRecuperarClave($user->email, $primerNombre, $user->username, $password);
+			
+					if ($result == 0)
+					{
+						$this->Flash->success(__('Se envió el usuario y contraseña al email: ' . $user->email));
+					}
+					else
+					{
+						$this->Flash->error(__('No se pudo enviar el email con su usuario y contraseña. Por favor intente nuevamente'));
+					}
+				}
+				else
+				{
+					$this->Flash->error(__('No se pudo crear la nueva contraseña. Por favor intente nuevamente'));
+				}			
+			}
+			else
+			{
+				$this->Flash->error(__('No se encontró ningún usuario registrado con ese email'));
+			}	
+			return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+		}	
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+    public function emailRecuperarClave($email = null, $primerNombre = null, $username = null, $password = null)
+    {
+        $correo = new Email(); 
+        $correo
+          ->Transport('donWeb')
+          ->template('email_clave') 
+          ->emailFormat('html') 
+          ->to($email) 
+          ->from(['noresponder@tumundobienesraices.com' => 'Tu Mundo Bienes Raíces']) 
+          ->subject('Recuperación de usuario y clave') 
+          ->viewVars([ 
+            'varUser' => $primerNombre,
+            'varUsername' => $username,
+            'varPassword' => $password,
+          ]);
+		  
+        $correo->SMTPAuth = true;
+        $correo->CharSet = "utf-8";     
+
+        if($correo->send())
+        {
+            $result = 0;
+        }
+        else
+        {
+            $result = 1;
+        }
+        
+        return $result;
+    }
+	public function arrayErrors($arrayCake = null)
+	{
+		$error_msg = [];
+		
+		foreach($arrayCake as $errors)
+		{
+			if(is_array($errors))
+			{
+				foreach($errors as $error)
+				{
+					
+					$error_msg[] = $error;
+				}
+			}
+			else
+			{
+				$error_msg[] = $errors;
+			}
+		}
+		
+		return $error_msg;
+	}
 }

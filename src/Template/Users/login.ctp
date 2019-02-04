@@ -23,7 +23,7 @@
 	                        <?= $this->Form->button('Acceder', ['id' => 'to-access', 'class' => 'btn btn-lg btn-success btn-block']) ?>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6">
-							<?= $this->Html->link('Olvidé mi contraseña', ['controller' => 'Users', 'action' => 'recoverPassword'], ['class' => 'btn btn-lg btn-primary btn-block']) ?>
+							<?= $this->Html->link('Olvidé mi clave', ['controller' => 'Users', 'action' => 'recuperarClave'], ['class' => 'btn btn-lg btn-primary btn-block']) ?>
 						</div>
 					</div>
 				</fieldset>
