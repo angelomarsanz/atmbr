@@ -229,7 +229,7 @@ class UsersController extends AppController
 		
         if ($this->request->is('post')) 
         {
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user = $this->Users->patchEntity($user, $this->request->getData());
 							
 			$ultimoRegistro = $this->Users->find('all', ['conditions' => [['Users.role' => $user->role], ['Users.email' => $user->email]], 
 			'order' => ['Users.created' => 'DESC']]);
@@ -250,7 +250,7 @@ class UsersController extends AppController
 				
 				$primerApellido = strtoupper($primerApellidoTrim);
 			
-				$password = substr($primerNombre, 0, 1) . substr($primerApellido, 0, 1) . $currentDate->second . $currentDate->minute . '$';
+				$password = 'Tb' . $user->id . $currentDate->second . $currentDate->minute . '$';
 
 				$user->password = $password;
 							
@@ -285,18 +285,18 @@ class UsersController extends AppController
     {
         $correo = new Email(); 
         $correo
-          ->Transport('donWeb')
-          ->template('email_clave') 
-          ->emailFormat('html') 
-          ->to($email) 
-          ->from(['noresponder@tumundobienesraices.com' => 'Tu Mundo Bienes Raíces']) 
-          ->subject('Recuperación de usuario y clave') 
-          ->viewVars([ 
+          ->setTransport('donWeb') 
+          ->setEmailFormat('html') 
+          ->setTo($email) 
+          ->setFrom(['noresponder@tumundobienesraices.com' => 'Tu Mundo Bienes Raíces']) 
+          ->setSubject('Recuperación de usuario y clave') 
+          ->setViewVars([ 
             'varUser' => $primerNombre,
             'varUsername' => $username,
             'varPassword' => $password,
-          ]);
-		  
+          ])
+          ->viewBuilder()->setTemplate('email_clave');
+
         $correo->SMTPAuth = true;
         $correo->CharSet = "utf-8";     
 

@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto text-center">
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Usuario</a>
             </li>
             <li class="nav-item">
                 <?= $this->Html->link('Salir', ['controller' => 'Users', 'action' => 'logout'], ['class' => "nav-link", 'title' => 'Salir del sistema']) ?>
