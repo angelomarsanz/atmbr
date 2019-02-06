@@ -1,17 +1,20 @@
 <div class="row">
-    <div class="col-md-6">
-    	<div class="page-header">
-			<h4>Por favor escriba su correo electrónico y seleccione su rol. Se le enviará un correo con su usuario y nueva clave</h4>
+    <div class="col-md-12">
+    	<div class="page-header text-center">
+            <h4>Recuperar usuario y clave</h4>
+			<p>Por favor escriba su correo electrónico y seleccione su rol. Se le enviará un correo con su usuario y clave</p>
         </div>
 	</div>
 </div>
 <div class="row">
     <div class="col-md-4">
-            <?= $this->Form->create($user, ['type' => 'file']) ?>
+    </div>
+    <div class="col-md-4">
+        <?= $this->Form->create($user, ['type' => 'file']) ?>
             <fieldset>
 				<?php 
-                    echo $this->Form->control('email', ['label' => 'Correo electrónico: *']);
-					echo $this->Form->control('role', ['label' => 'Rol: *', 'options' => 
+                    echo $this->Form->control('email', ['label' => 'Correo electrónico*', 'class' => 'form-group form-control']);
+					echo $this->Form->control('role', ['label' => 'Rol*', 'class' => 'form-group form-control', 'options' => 
                             [null => '',
                             'Administrador(a) de la empresa' => 'Administrador(a) de la empresa',
                             'Administrador(a) del sistema' => 'Administrador(a) del sistema',
@@ -24,8 +27,10 @@
 							]]);
                 ?>
             </fieldset>
-        <?= $this->Form->button(__('Enviar correo'), ['id' => 'enviar-correo', 'class' =>'btn btn-success']) ?>
+        <?= $this->Form->button(__('Enviar correo'), ['id' => 'enviar-correo', 'class' =>'btn btn-primary']) ?>
         <?= $this->Form->end() ?>
+    </div>
+    <div class="col-md-4">
     </div>
 </div>
 <script>

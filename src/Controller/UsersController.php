@@ -260,7 +260,7 @@ class UsersController extends AppController
 			
 					if ($result == 0)
 					{
-						$this->Flash->success(__('Se envió el usuario y contraseña al email: ' . $user->email));
+                        $this->Flash->success(__('Se envió el usuario y clave al email: ' . $user->email));
 					}
 					else
 					{
