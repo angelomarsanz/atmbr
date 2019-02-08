@@ -132,13 +132,60 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+
     public function index()
     {
-        $users = $this->paginate($this->Users);
+		$this->loadModel('Systems');
+		$system = $this->Systems->get(2);
+		
+		if ($this->Auth->user('role') == 'Desarrollador del sistema')
+		{
+			$query = $this->Users->find('all')->where
+				([['Users.id <>' => 1],
+				['Users.role <>' => 'Desarrollador del sistema'],
+				['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}	
+		elseif ($this->Auth->user('role') == 'Administrador del sistema' || 'Titular del sistema')
+        {
+			$query = $this->Users->find('all')->where
+				([['Users.id <>' => 1],
+				['Users.role <>' => 'Desarrollador del sistema'],
+				['Users.role <>' => 'Administrador del sistema'],
+				['Users.role <>' => 'Titular del sistema'],
+				['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}
+		elseif ($this->Auth->user('role') == 'Supervisor')
+        {
+			$query = $this->Users->find('all')->where
+				([['Users.id <>' => 1],
+				['Users.role <>' => 'Desarrollador del sistema'],
+				['Users.role <>' => 'Administrador del sistema'],
+                ['Users.role <>' => 'Titular del sistema'],
+                ['Users.role <>' => 'Auditor(a)'],
+                ['Users.role <>' => 'Supervisor(a)'],
+				['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}
+        else
+        {
+			$query = $this->Users->find('all')->where
+                ([['Users.id <>' => 1],
+                ['OR' => ['Users.role' => 'Proveedor', 'Users.role' => 'Cliente']],
+                ['OR' => ['Users.usuario_captador' => $this->Auth->user('id'), 'Users.usuario_captador' => $this->Auth->user('id')]],
+				['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
 
-        $this->set(compact('users'));
+        }
+				
+        $this->set('users', $this->paginate($query));
+        
+        $currentView = 'usersIndex';
+        
+        $this->set(compact('system', 'users', 'currentView'));
+        $this->set('_serialize', ['system', 'users', 'currentView']);
     }
-
     /**
      * View method
      *

@@ -199,6 +199,28 @@ class UsersTable extends Table
             ->maxLength('usuario_responsable', 255)
             ->allowEmptyString('usuario_responsable');
 
+        $validator
+            ->integer('wpid')
+            ->allowEmptyString('wpid');
+
+        $validator
+            ->scalar('wpuserlogin')
+            ->maxLength('wpuserlogin', 255)
+            ->allowEmptyString('wpuserlogin');
+
+        $validator
+            ->scalar('wppassword')
+            ->maxLength('wppassword', 255)
+            ->allowEmptyString('wppassword');
+
+        $validator
+            ->integer('idusuario_captador')
+            ->allowEmptyString('idusuario_captador');
+
+        $validator
+            ->integer('idusuario_promotor')
+            ->allowEmptyString('idusuario_promotor');
+
         return $validator;
     }
 

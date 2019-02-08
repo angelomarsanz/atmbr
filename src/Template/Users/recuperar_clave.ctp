@@ -20,8 +20,10 @@
                             'Administrador(a) del sistema' => 'Administrador(a) del sistema',
                             'Auditor(a)' => 'Auditor(a)',
                             'Captador(a)' => 'Captador(a)',
+                            'Cliente' => 'Cliente',
                             'Desarrollador del sistema' => 'Desarrollador del sistema',
                             'Promotor(a)' => 'Promotor(a)',
+                            'Proveedor' => 'Proveedor',
                             'Supervisor(a)' => 'Supervisor(a)',
                             'Titular del sistema' => 'Titular del sistema'                    
 							]]);
