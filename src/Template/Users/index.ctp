@@ -120,11 +120,12 @@
             <?= $this->Paginator->prev('< Anterior-') ?>
             <?= $this->Paginator->numbers() ?>
             <?= $this->Paginator->next('-Siguiente >') ?>
-            <?= $this->Paginator->last('Último >>') ?>
+            <?= $this->Paginator->last('-Último >>') ?>
         </ul>
         <p><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}')]) ?></p>
     </div>
 </div>
+<a href="#" id="prueba" title="prueba" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "minuswhite.svg"]) ?> alt="prueba" class="icon"></a>
 <div id="menu-menos" class="menumenos nover">
 	<p>
         <a href="#" id="mas" title="Más opciones" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "pluswhite.svg"]) ?> alt="Más" class="icon"></a>
@@ -149,14 +150,14 @@
 		$.redirect('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>', { id : id, controller : 'Users', action : 'index' }); 
     }
     $(document).ready(function(){ 
-        /* $('#user').autocomplete(
+        $('#user').autocomplete(
         {
             source:'<?php echo Router::url(["controller" => "Users", "action" => "findUser"]); ?>',
             minLength: 3,             
             select: function( event, ui ) {
                 log(ui.item.id);
               }
-        }); */
+        }); 
 		$('#mas').on('click',function()
 		{
 			$('#menu-menos').hide();
@@ -167,6 +168,10 @@
 		{
 			$('#menu-mas').hide();
 			$('#menu-menos').show();
-		});
+        });
+		$('#prueba').on('click',function()
+		{
+			$.redirect('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>', {filtro : 'Cliente'});
+        });            
     });
 </script>

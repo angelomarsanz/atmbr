@@ -49,7 +49,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     // Register scoped middleware for in scopes.
     $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
         'httpOnly' => true
-    ]));
+    ])); 
 
     /**
      * Apply a middleware to the current route scope.
@@ -90,6 +90,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->fallbacks(DashedRoute::class);
 });
+
+Router::extensions('json', 'xml');
 
 /**
  * If you need a different set of middleware or none at all,

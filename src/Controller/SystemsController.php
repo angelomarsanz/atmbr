@@ -12,7 +12,6 @@ use App\Controller\AppController;
  */
 class SystemsController extends AppController
 {
-
     /**
      * Index method
      *

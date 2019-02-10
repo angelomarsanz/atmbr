@@ -29,7 +29,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
         
-        $this->Auth->allow(['add', 'edit', 'recuperarClave']);
+        $this->Auth->allow(['add', 'edit', 'recuperarClave', 'previo']);
     }
     
     public function isAuthorized($user)
@@ -119,7 +119,6 @@ class UsersController extends AppController
     public function home()
     {
         $this->render();
-        
     }
 
     public function logout()
@@ -127,13 +126,24 @@ class UsersController extends AppController
         return $this->redirect($this->Auth->logout());
     }
 
+    public function previo()
+    {
+        $this->autoRender = false;
+        
+        if ($this->request->is('post')) 
+        {
+            $filtro = $_POST['filtro'];
+            return $this->redirect(['controller' => 'Users', 'action' => 'index', $filtro]);
+        }
+         
+    }
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|void
      */
-
-    public function index()
+    public function index($filtro = null)
     {
 		$this->loadModel('Systems');
 		$system = $this->Systems->get(2);
@@ -144,8 +154,17 @@ class UsersController extends AppController
         
         if ($arrayResult['indicator'] == 0)
         {
-            $users = $arrayResult['searchRequired'];
-            $this->set('users', $this->paginate($arrayResult['searchRequired']));       
+            $usersTodos = $arrayResult['searchRequired'];
+
+            if (isset($filtro))
+            {
+                $usersSelect = $usersTodos->where(['Users.role' => $filtro]);
+                $this->set('users', $this->paginate($usersSelect)); 
+            }
+            else
+            {
+                $this->set('users', $this->paginate($usersTodos));       
+            }            
             $currentView = 'usersIndex';
             $this->set(compact('system', 'users', 'currentView'));
             $this->set('_serialize', ['system', 'users', 'currentView']);
