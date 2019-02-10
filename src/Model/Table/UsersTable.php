@@ -244,4 +244,67 @@ class UsersTable extends Table
         
         return $query;
     }
+
+    public function findUser(Query $query, array $options)
+    {
+		$arrayResult = [];
+
+		if ($options['role'] == 'Desarrollador del sistema')
+		{
+            $query
+                ->where
+				    ([['Users.id <>' => 1],
+				    ['Users.role <>' => 'Desarrollador del sistema'],
+				    ['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}	
+		elseif ($options['role'] == 'Administrador del sistema' || $this->Auth->user('role') == 'Titular del sistema')
+        {
+            $query
+                ->where
+				    ([['Users.id <>' => 1],
+				    ['Users.role <>' => 'Desarrollador del sistema'],
+				    ['Users.role <>' => 'Administrador del sistema'],
+				    ['Users.role <>' => 'Titular del sistema'],
+				    ['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}
+		elseif ($options['role'] == 'Supervisor')
+        {
+            $query
+                ->where
+				    ([['Users.id <>' => 1],
+				    ['Users.role <>' => 'Desarrollador del sistema'],
+				    ['Users.role <>' => 'Administrador del sistema'],
+                    ['Users.role <>' => 'Titular del sistema'],
+                    ['Users.role <>' => 'Auditor(a)'],
+                    ['Users.role <>' => 'Supervisor(a)'],
+				    ['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+		}
+        else
+        {
+            $query
+                ->where
+                    ([['Users.id <>' => 1],
+                    ['OR' => ['Users.role' => 'Proveedor', 'Users.role' => 'Cliente']],
+                    ['OR' => ['Users.usuario_captador' => $this->Auth->user('id'), 'Users.usuario_captador' => $this->Auth->user('id')]],
+				    ['Users.estatus_registro' => 'ACTIVO']])
+				->order(['Users.primer_apellido' => 'ASC', 'Users.segundo_apellido' => 'ASC', 'Users.primer_nombre' => 'ASC', 'Users.segundo_nombre' => 'ASC']);			
+
+        }
+
+        $contadorRegistro = $query->count();
+
+        if ($contadorRegistro > 0)
+        {
+            $arrayResult['indicator'] = 0;
+            $arrayResult['searchRequired'] = $query;
+        }
+        else
+        {
+            $arrayResult['indicator'] = 1;
+        }
+        return $arrayResult;
+    }
 }

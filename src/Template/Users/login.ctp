@@ -2,8 +2,8 @@
 
 <div class="container">
 	<div class="jumbotron">
-    		<h1>Bienvenidos a la aplicación Tu Mundo Bienes Raíces...</h1>
-    		<p>Por favor escriba su usuario y clave</p>
+    		<h1 style="color: #085b9e">¡ Bienvenido a Tu Mundo Bienes Raíces !</h1>
+    		<p style="color: #085b9e">Por favor escriba su usuario y clave</p>
 	</div>
 	<div class="row" style="margin-top:20px">
 		<div class="col-md-3">

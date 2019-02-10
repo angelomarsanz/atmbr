@@ -3,103 +3,170 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
+    use Cake\Routing\Router; 
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="users index large-9 medium-8 columns content">
-    <h3><?= __('Users') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('username') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('tipo_identificacion') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('nro_documento_identidad') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('role') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('primer_nombre') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('segundo_nombre') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('primer_apellido') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('segundo_apellido') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sexo') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('telefono_celular') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('profile_photo') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('profile_photo_dir') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra1') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra2') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra3') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra4') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra5') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra6') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra7') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra8') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra9') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('columna_extra10') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Estatus_registro') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('motivo_cambio_estatus') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fecha_estatus') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('usuario_responsable') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->username) ?></td>
-                <td><?= h($user->password) ?></td>
-                <td><?= h($user->tipo_identificacion) ?></td>
-                <td><?= h($user->nro_documento_identidad) ?></td>
-                <td><?= h($user->role) ?></td>
-                <td><?= h($user->primer_nombre) ?></td>
-                <td><?= h($user->segundo_nombre) ?></td>
-                <td><?= h($user->primer_apellido) ?></td>
-                <td><?= h($user->segundo_apellido) ?></td>
-                <td><?= h($user->sexo) ?></td>
-                <td><?= h($user->email) ?></td>
-                <td><?= h($user->telefono_celular) ?></td>
-                <td><?= h($user->profile_photo) ?></td>
-                <td><?= h($user->profile_photo_dir) ?></td>
-                <td><?= h($user->columna_extra1) ?></td>
-                <td><?= h($user->columna_extra2) ?></td>
-                <td><?= h($user->columna_extra3) ?></td>
-                <td><?= h($user->columna_extra4) ?></td>
-                <td><?= h($user->columna_extra5) ?></td>
-                <td><?= h($user->columna_extra6) ?></td>
-                <td><?= h($user->columna_extra7) ?></td>
-                <td><?= h($user->columna_extra8) ?></td>
-                <td><?= h($user->columna_extra9) ?></td>
-                <td><?= h($user->columna_extra10) ?></td>
-                <td><?= h($user->Estatus_registro) ?></td>
-                <td><?= h($user->motivo_cambio_estatus) ?></td>
-                <td><?= h($user->fecha_estatus) ?></td>
-                <td><?= h($user->usuario_responsable) ?></td>
-                <td><?= h($user->created) ?></td>
-                <td><?= h($user->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+<style>
+@media screen
+{
+    .volver 
+    {
+        display:scroll;
+        position:fixed;
+        top: 15%;
+        left: 50px;
+        opacity: 0.5;
+    }
+    .cerrar 
+    {
+        display:scroll;
+        position:fixed;
+        top: 15%;
+        left: 95px;
+        opacity: 0.5;
+    }
+    .menumenos
+    {
+        display:scroll;
+        position:fixed;
+        bottom: 5%;
+        right: 1%;
+        opacity: 0.5;
+        text-align: right;
+    }
+    .menumas 
+    {
+        display:scroll;
+        position:fixed;
+        bottom: 5%;
+        right: 1%;
+        opacity: 0.5;
+        text-align: right;
+    }
+    .noverScreen
+    {
+      display:none
+    }
+    .ui-autocomplete 
+    {
+        z-index: 2000;
+    }
+}
+@media print 
+{
+    .nover 
+    {
+      display:none
+    }
+    .saltopagina
+    {
+        display:block; 
+        page-break-before:always;
+    }
+}
+</style>
+<div class="page-header">
+    <br />
+    <br />
+    <h2>Usuarios del sistema</h2>
+    <p>
+        <?= $this->Html->link($this->Html->image('plus.svg', ['alt' => 'Agregar usuario', 'class' => "icon"]),
+                    ['controller' => 'Users', 'action' => 'add', 'Users', 'index'],
+                    ['escape' => false, 'title' => 'Agregar usuario', 'class' => 'btn btn-sm btn-light']) ?>
+    </p>
+</div>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 25%;">Nombre</th>
+                    <th scope="col" style="width: 25%;">Rol</th>
+                    <th scope="col" style="width: 25%;">Usuario</th>
+                    <th scope="col" style="width: 25%;" class="actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= h($user->full_name) ?></td>
+                        <td><?= h($user->role) ?></td>
+                        <td><?= h($user->username) ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link($this->Html->image('eye.svg', ['alt' => 'Ver', 'class' => "icon"]),
+                                ['controller' => 'Users', 'action' => 'view', $user->id, 'Users', 'index'],
+                                ['escape' => false, 'title' => 'Ver', 'class' => 'btn btn-sm btn-light']) ?>
+
+                            <?php if ($user->estatus_registro == 'ACTIVO'): ?>
+                                <?= $this->Form->postLink($this->Html->image('x.svg', ['alt' => 'Inactivar', 'class' => "icon"]),
+                                    ['controller' => 'Users', 'action' => 'inactivate', $user->id, 'Users', 'index'],
+                                    ['escape' => false, 'title' => 'Inactivar', 'class' => 'btn btn-sm btn-light', 'confirm' => __('Está seguro de que desea inactivar el usuario?')]) ?>
+                            <?php else: ?>
+                                <?= $this->Form->postLink($this->Html->image('check.svg', ['alt' => 'Activar', 'class' => "icon"]),
+                                        ['controller' => 'Users', 'action' => 'activate', $user->id, 'Users', 'index'],
+                                        ['escape' => false, 'title' => 'Activar', 'class' => 'btn btn-sm btn-light', 'confirm' => __('Está seguro de que desea activar el usuario?')]) ?>
+                            <?php endif; ?>
+                            <?= $this->Form->postLink($this->Html->image('trash.svg', ['alt' => 'Eliminar', 'class' => "icon"]),
+                                        ['controller' => 'Users', 'action' => 'delete', $user->id, 'Users', 'index'],
+                                        ['escape' => false, 'title' => 'Eliminar', 'class' => 'btn btn-sm btn-light', 'confirm' => __('Está seguro de que desea activar el usuario?')]) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->first('<< Primero-') ?>
+            <?= $this->Paginator->prev('< Anterior-') ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
+            <?= $this->Paginator->next('-Siguiente >') ?>
+            <?= $this->Paginator->last('Último >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+        <p><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}')]) ?></p>
     </div>
 </div>
+<div id="menu-menos" class="menumenos nover">
+	<p>
+        <a href="#" id="mas" title="Más opciones" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "pluswhite.svg"]) ?> alt="Más" class="icon"></a>
+	</p>
+</div>
+<div id="menu-mas" style="display:none;" class="menumas nover">
+	<p>
+        <?= $this->Html->link($this->Html->image('arrow-thick-leftwhite.svg', ['alt' => 'Volver', 'class' => "icon"]),
+            ['controller' => 'Users', 'action' => 'wait'],
+            ['escape' => false, 'title' => 'Volver', 'class' => 'btn btn-info']) ?>
+
+        <?= $this->Html->link($this->Html->image('xwhite.svg', ['alt' => 'Cerrar', 'class' => "icon"]),
+            ['controller' => 'Users', 'action' => 'wait'],
+            ['escape' => false, 'title' => 'Cerrar', 'class' => 'btn btn-info']) ?>
+	
+        <a href="#" id="menos" title="Menos opciones" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "minuswhite.svg"]) ?> alt="Menos" class="icon"></a>
+	</p>
+</div>
+<script>
+    function log(id) 
+    {
+		$.redirect('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>', { id : id, controller : 'Users', action : 'index' }); 
+    }
+    $(document).ready(function(){ 
+        /* $('#user').autocomplete(
+        {
+            source:'<?php echo Router::url(["controller" => "Users", "action" => "findUser"]); ?>',
+            minLength: 3,             
+            select: function( event, ui ) {
+                log(ui.item.id);
+              }
+        }); */
+		$('#mas').on('click',function()
+		{
+			$('#menu-menos').hide();
+			$('#menu-mas').show();
+		});
+		
+		$('#menos').on('click',function()
+		{
+			$('#menu-mas').hide();
+			$('#menu-menos').show();
+		});
+    });
+</script>
