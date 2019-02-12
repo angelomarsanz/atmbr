@@ -68,11 +68,90 @@
     <br />
     <br />
     <h2>Usuarios del sistema</h2>
-    <p>
-        <?= $this->Html->link($this->Html->image('plus.svg', ['alt' => 'Agregar usuario', 'class' => "icon"]),
+    <div class="row">
+        <div class="col-md-1">
+            <?= $this->Html->link($this->Html->image('plus.svg', ['alt' => 'Agregar usuario', 'class' => "icon"]),
                     ['controller' => 'Users', 'action' => 'add', 'Users', 'index'],
                     ['escape' => false, 'title' => 'Agregar usuario', 'class' => 'btn btn-sm btn-light']) ?>
-    </p>
+        </div>
+        <div class="col-md-4">
+            <?php if (isset($current_user)): ?>
+                <?php if ($current_user['role'] == 'Desarrollador del sistema'): ?>
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtrar por', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Administrador(a) de la empresa' => 'Administrador(a) de la empresa',
+                        'Administrador(a) del sistema' => 'Administrador(a) del sistema',
+                        'Auditor(a)' => 'Auditor(a)',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Supervisor(a)' => 'Supervisor(a)',
+                        'Titular del sistema' => 'Titular del sistema',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php elseif ($current_user['role'] == 'Titular del sistema'): ?> 
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtro', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Administrador(a) de la empresa' => 'Administrador(a) de la empresa',
+                        'Administrador(a) del sistema' => 'Administrador(a) del sistema',
+                        'Auditor(a)' => 'Auditor(a)',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Supervisor(a)' => 'Supervisor(a)',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php elseif ($current_user['role'] == 'Administrador(a) del sistema'): ?>
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtro', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Administrador(a) de la empresa' => 'Administrador(a) de la empresa',
+                        'Auditor(a)' => 'Auditor(a)',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Supervisor(a)' => 'Supervisor(a)',
+                        'Titular del sistema' => 'Titular del sistema',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php elseif ($current_user['role'] == 'Auditor(a)'): ?>
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtro', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Administrador(a) de la empresa' => 'Administrador(a) de la empresa',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Supervisor(a)' => 'Supervisor(a)',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php elseif ($current_user['role'] == 'Administrador(a) de la empresa'): ?>
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtro', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Supervisor(a)' => 'Supervisor(a)',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php elseif ($current_user['role'] == 'Supervisor(a)'): ?>
+                    <?php echo $this->Form->control('filtro', ['label' => 'Filtro', 'class' => 'form-group form-control', 'options' => 
+                        [null => '',
+                        'Captador(a)' => 'Captador(a)',
+                        'Cliente' => 'Cliente',
+                        'Promotor(a)' => 'Promotor(a)',
+                        'Proveedor' => 'Proveedor',
+                        'Todos' => 'Todos']]);
+                    ?>
+                <?php endif; ?>
+            <?php endif; ?>    
+        </div>
+        <div class="col-md-7">
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="table-responsive">
@@ -125,7 +204,6 @@
         <p><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}')]) ?></p>
     </div>
 </div>
-<a href="#" id="prueba" title="prueba" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "minuswhite.svg"]) ?> alt="prueba" class="icon"></a>
 <div id="menu-menos" class="menumenos nover">
 	<p>
         <a href="#" id="mas" title="Más opciones" class='btn btn-info'><img src=<?= Router::url(["controller" => "img", "action" => "pluswhite.svg"]) ?> alt="Más" class="icon"></a>
@@ -147,7 +225,7 @@
 <script>
     function log(id) 
     {
-		$.redirect('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>', { id : id, controller : 'Users', action : 'index' }); 
+        window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>' + '/' + id + '/users/index');
     }
     $(document).ready(function(){ 
         $('#user').autocomplete(
@@ -169,9 +247,15 @@
 			$('#menu-mas').hide();
 			$('#menu-menos').show();
         });
-		$('#prueba').on('click',function()
-		{
-			$.redirect('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>', {filtro : 'Cliente'});
+
+        $('#filtro').change(function(e) 
+        {
+            e.preventDefault();
+        
+            // var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+            // $.redirect('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>', {headers: {'X-CSRF-Token': csrfToken}} ,{filtro : 'Cliente'});
+
+            window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>' + '/' + $('#filtro').val());
         });            
     });
 </script>

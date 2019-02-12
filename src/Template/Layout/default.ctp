@@ -27,7 +27,7 @@ $cakeDescription = 'Tu Mundo Bienes Raíces';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css(['bootstrap.min', 'misestilos']) ?>
-    <?= $this->Html->script(['jquery-3.3.1.min', 'jquery-ui.min', 'popper', 'bootstrap.min', 'jquery.redirect', 'jquery.numeric.min', 'jquery.table2excel.min']) ?>
+    <?= $this->Html->script(['jquery-3.3.1.min', 'jquery-ui.min', 'jquery.redirect', 'jquery.numeric.min', 'jquery.table2excel.min', 'popper', 'bootstrap.min']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>

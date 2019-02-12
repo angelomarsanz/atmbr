@@ -11,6 +11,8 @@ use Cake\Mailer\Email;
 
 use Cake\Filesystem\File;
 
+use Cake\Event\Event;
+
 /**
  * Users Controller
  *
@@ -28,10 +30,10 @@ class UsersController extends AppController
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);
-        
-        $this->Auth->allow(['add', 'edit', 'recuperarClave', 'previo']);
+         
+        $this->Auth->allow(['add', 'edit', 'recuperarClave', 'findUser']);
     }
-    
+
     public function isAuthorized($user)
     {
         if(isset($user['role']))
@@ -126,16 +128,11 @@ class UsersController extends AppController
         return $this->redirect($this->Auth->logout());
     }
 
-    public function previo()
+    public function previo($filtro = null)
     {
         $this->autoRender = false;
         
-        if ($this->request->is('post')) 
-        {
-            $filtro = $_POST['filtro'];
-            return $this->redirect(['controller' => 'Users', 'action' => 'index', $filtro]);
-        }
-         
+        return $this->redirect(['controller' => 'Users', 'action' => 'index', $filtro]);         
     }
 
     /**
@@ -158,8 +155,15 @@ class UsersController extends AppController
 
             if (isset($filtro))
             {
-                $usersSelect = $usersTodos->where(['Users.role' => $filtro]);
-                $this->set('users', $this->paginate($usersSelect)); 
+                if ($filtro != 'Todos')
+                {
+                    $usersSelect = $usersTodos->where(['Users.role' => $filtro]);
+                    $this->set('users', $this->paginate($usersSelect)); 
+                }
+                else
+                {
+                    $this->set('users', $this->paginate($usersTodos));
+                }
             }
             else
             {
@@ -372,5 +376,25 @@ class UsersController extends AppController
     public function wait()
     {
         
+    }
+    public function findUser()
+    {
+
+        $this->autoRender = false;
+
+        if ($this->request->is('ajax')) 
+        {
+            
+            $name = $this->request->query['term'];
+            $results = $this->Users->find('all', [
+                'conditions' => [['Users.primer_apellido LIKE' => $name . '%'], ['Users.estatus_registro' => 'ACTIVO']]]);
+            $resultsArr = [];
+			$account = 1;
+            foreach ($results as $result) 
+            {
+                 $resultsArr[] = ['label' => $result->primer_apellido . ' ' . $result->segundo_apellido . ' ' . $result->primer_nombre . ' ' . $result->segundo_nombre . ' - ' . $result->role, 'value' => $result->primer_apellido . ' ' . $result->segundo_apellido . ' ' . $result->primer_nombre . ' ' . $result->segundo_nombre . ' - ' . $result->role, 'id' => $result->id];
+            }
+            exit(json_encode($resultsArr, JSON_FORCE_OBJECT));
+        }
     }
 }
