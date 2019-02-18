@@ -28,7 +28,6 @@ class TmbrUsermetum extends Entity
     protected $_accessible = [
         'user_id' => true,
         'meta_key' => true,
-        'meta_value' => true,
-        'user' => true
+        'meta_value' => true
     ];
 }

@@ -122,7 +122,7 @@ class UsersController extends AppController
 
         // print("<p><img src='http://localhost/public_html/redetron/angelomar2.JPG' width = 50 height = 60 class='img-thumbnail'/></p>");        
         // Cakephp create
-        $http = new Client();
+        /* $http = new Client();
         // $response = $http->post('https://dapliw.org.ve/wp-json/wp/v2/users', 
         // $response = $http->post('http://localhost/redetron/index.php/wp-json/wp/v2/users',
         // $response = $http->post('http://localhost/wordpressra/index.php/wp-json/wp/v2/users',
@@ -142,7 +142,7 @@ class UsersController extends AppController
         else
         {
             echo('Error al crear el usuario. Código del error: ' . $estatusPeticion);
-        }
+        } */
 
         // Cakephp read
         /* $http = new Client();

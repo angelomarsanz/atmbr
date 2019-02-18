@@ -49,20 +49,27 @@ class TmbrUsermetaController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($id = null, $clave = null, $valor = null)
     {
-        $tmbrUsermetum = $this->TmbrUsermeta->newEntity();
-        if ($this->request->is('post')) {
-            $tmbrUsermetum = $this->TmbrUsermeta->patchEntity($tmbrUsermetum, $this->request->getData());
-            if ($this->TmbrUsermeta->save($tmbrUsermetum)) {
-                $this->Flash->success(__('The tmbr usermetum has been saved.'));
+        $this->autoRender = false;
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The tmbr usermetum could not be saved. Please, try again.'));
+        $resultado = 0;
+
+        $this->Flash->success(__('ID : ' . $id . ' Clave: ' . $clave . ' Valor: ' . $valor));
+
+        $tmbrUsermetum = $this->TmbrUsermeta->newEntity();
+
+        debug($tmbrUsermetum);
+
+        $tmbrUsermetum->user_id = $id;
+        $tmbrUsermetum->meta_key = $clave;
+        $tmbrUsermetum->meta_value = $valor;
+
+        if (!($this->TmbrUsermeta->save($tmbrUsermetum))) 
+        {
+            $resultado = 1;
         }
-        $users = $this->TmbrUsermeta->Users->find('list', ['limit' => 200]);
-        $this->set(compact('tmbrUsermetum', 'users'));
+        return $resultado;
     }
 
     /**

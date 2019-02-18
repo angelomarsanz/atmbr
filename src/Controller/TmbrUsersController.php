@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use App\Controller\TmbrUsermetaController;
+
 use Cake\I18n\Time;
 
 /**
@@ -52,7 +54,13 @@ class TmbrUsersController extends AppController
     {
         $this->autoRender = false;
 
+        $resultado = 0;
+
+        $usuarioMeta = new TmbrUsermetaController;
+
         $tmbrUser = $this->TmbrUsers->newEntity();
+
+        debug($tmbrUser);
 
         $tmbrUser->user_login = $user->username;
         $tmbrUser->user_pass = $user->password;
@@ -66,7 +74,43 @@ class TmbrUsersController extends AppController
 
         if ($this->TmbrUsers->save($tmbrUser)) 
         {
-            $resultado = 0;
+			$ultimoRegistro = $this->TmbrUsers->find('all', ['conditions' => ['TmbrUsers.user_login' => $tmbrUser->user_login], 
+			'order' => ['TmbrUsers.user_registered' => 'DESC']]);
+    
+            $contadorRegistro = $ultimoRegistro->count();
+		
+            if ($contadorRegistro > 0)
+            {
+                $fila = $ultimoRegistro->first();
+                $camposMeta = 
+                    ['nickname' => $user->username,
+                    'first_name' => $user->primer_nombre,
+                    'last_name' => $user->primer_apellido,
+                    'description' => '',
+                    'rich_editing' => true,
+                    'syntax_highlighting' => true,
+                    'comment_shortcuts' => true,
+                    'admin_color' => 'fresh',
+                    'use_ssl' => 0,
+                    'show_admin_bar_front' => true,
+                    'locale' => '',
+                    'wp_capabilities' => 'a:1:{s:10:"subscriber";b:1;}',
+                    'wp_user_level' => 0];
+
+                foreach ($camposMeta as $clave => $valor)
+                {
+                    $resultado = $usuarioMeta->add($fila->ID, $clave, $valor);
+                    if ($resultado > 0)
+                    {
+                        $resultado = 1;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                $resultado = 1;
+            }
         }
         else
         {

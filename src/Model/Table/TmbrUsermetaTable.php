@@ -36,11 +36,6 @@ class TmbrUsermetaTable extends Table
         $this->setTable('tmbr_usermeta');
         $this->setDisplayField('umeta_id');
         $this->setPrimaryKey('umeta_id');
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
     }
 
     /**
@@ -65,19 +60,5 @@ class TmbrUsermetaTable extends Table
             ->allowEmptyString('meta_value');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-        return $rules;
     }
 }
