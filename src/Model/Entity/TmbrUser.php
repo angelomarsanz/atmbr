@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 use Cake\Auth\DefaultPasswordHasher;
+use App\Auth\LegacyPasswordHasher;
 
 use Cake\ORM\Entity;
 
@@ -43,11 +44,5 @@ class TmbrUser extends Entity
     ];
     protected $_hidden = [
         'user_pass'
-    ];
-    
-    protected function _setUserPass($value)
-    {
-        $hasher = new DefaultPasswordHasher();
-        return $hasher->hash($value);
-    }
+    ];    
 }

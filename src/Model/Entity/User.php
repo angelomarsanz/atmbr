@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 use Cake\Auth\DefaultPasswordHasher;
+use App\Auth\LegacyPasswordHasher;
 
 use Cake\ORM\Entity;
 
@@ -95,7 +96,7 @@ class User extends Entity
     
     protected function _setPassword($value)
     {
-        $hasher = new DefaultPasswordHasher();
+        $hasher = new LegacyPasswordHasher();
         return $hasher->hash($value);
     }
     protected function _getFullName()

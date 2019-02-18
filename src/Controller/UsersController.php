@@ -124,13 +124,13 @@ class UsersController extends AppController
         // Cakephp create
         $http = new Client();
         // $response = $http->post('https://dapliw.org.ve/wp-json/wp/v2/users', 
-        // $response = $http->post('https://tumundobienesraices.com/wp-json/wp/v2/users',
         // $response = $http->post('http://localhost/redetron/index.php/wp-json/wp/v2/users',
-        $response = $http->post('http://localhost/wordpressra/index.php/wp-json/wp/v2/users',
+        // $response = $http->post('http://localhost/wordpressra/index.php/wp-json/wp/v2/users',
+        $response = $http->post('https://tumundobienesraices.com/dredetron/wp-json/wp/v2/users',
             ['username' => 'usuarioprueba4', 'password' => 'usuarioprueba4', 'email' => 'usuarioprueba4@gmail.com'], 
         //    ['auth' => ['username' => 'dapliwangel', 'password' => 'Angel2703$']
-        //    ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
-            ['auth' => ['username' => 'wordpressra', 'password' => 'Angel2703$'],
+        //    ['auth' => ['username' => 'wordpressra', 'password' => 'Angel2703$'],
+            ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
         ]);
         $json = $response->getJson();
         debug($json);
@@ -146,7 +146,7 @@ class UsersController extends AppController
 
         // Cakephp read
         /* $http = new Client();
-        $response = $http->get('https://tumundobienesraices.com/wp-json/wp/v2/users/9',
+        $response = $http->get('http://localhost/dredetron/index.php/wp-json/wp/v2/users/9',
             [], 
             ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
         ]);
@@ -160,7 +160,7 @@ class UsersController extends AppController
         else
         {
             echo('Error en la búsqueda del usuario. Código del error: ' . $estatusPeticion);
-        } */
+        } */ 
 
         // Cakephp update
         /* $http = new Client();
