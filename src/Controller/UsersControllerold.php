@@ -15,8 +15,6 @@ use Cake\Event\Event;
 
 use Cake\Http\Client;
 
-use App\Controller\TmbrUsersController;
-
 /**
  * Users Controller
  *
@@ -78,60 +76,16 @@ class UsersController extends AppController
 
     public function testFunction()
     {
-        /* echo "openssl.cafile: ", ini_get('openssl.cafile'), "\n";
-        print('<br />');
-        echo "curl.cainfo: ", ini_get('curl.cainfo'), "\n";
-        print('<br />');
-        var_dump(openssl_get_cert_locations()); */
-
-        // Php Create
-        /* $host = 'https://dapliw.org.ve/wp-json/wp/v2/users';
-        $host = 'https://tumundobienesraices.com/wp-json/wp/v2/users';
-        $data = array('username' => 'usuarioprueba2', 'password' => 'usuarioprueba2', 'email' => 'usuarioprueba2@gmail.com');
-        $data_string = json_encode($data);
-        $headers = array(
-            'Content-Type:application/json',
-            'Content-Length: ' . strlen($data_string),
-        //    'Authorization: Basic '. base64_encode('dapliwangel:Angel2703$')
-            'Authorization: Basic '. base64_encode('webmaster:Redetrontumu@@2017*')
-        );
-        $ch = curl_init($host);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');  
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($ch);
-        curl_close($ch);  
-        echo($result); */ 
-
-        // Php Read
-        /* $host = 'https://tumundobienesraices.com/wp-json/wp/v2/users/1';
-        $headers = array(
-            'Content-Type:application/json',
-            'Authorization: Basic '. base64_encode('webmaster:Redetrontumu@@2017*')
-        );
-        $ch = curl_init($host);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET'); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        $result = curl_exec($ch);
-        curl_close($ch);  
-        echo($result); */
-
+        print("<p><img src='../../../redetron/angelomar2.JPG' width = 50 height = 60 class='img-thumbnail'/></p>");
         // print("<p><img src='http://localhost/public_html/redetron/angelomar2.JPG' width = 50 height = 60 class='img-thumbnail'/></p>");        
         // Cakephp create
-        $http = new Client();
-        // $response = $http->post('https://dapliw.org.ve/wp-json/wp/v2/users', 
-        // $response = $http->post('https://tumundobienesraices.com/wp-json/wp/v2/users',
-        // $response = $http->post('http://localhost/redetron/index.php/wp-json/wp/v2/users',
-        $response = $http->post('http://localhost/wordpressra/index.php/wp-json/wp/v2/users',
-            ['username' => 'usuarioprueba4', 'password' => 'usuarioprueba4', 'email' => 'usuarioprueba4@gmail.com'], 
-        //    ['auth' => ['username' => 'dapliwangel', 'password' => 'Angel2703$']
-        //    ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
-            ['auth' => ['username' => 'wordpressra', 'password' => 'Angel2703$'],
+        /* $http = new Client();
+        $response = $http->post('https://tumundobienesraices.com/wp-json/wp/v2/users', 
+            ['username' => 'prueba5', 'password' => 'prueba5', 'email' => 'prueba5@gmail.com'], 
+            ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
         ]);
+        print('<br />');
+        print('<br />');
         $json = $response->getJson();
         debug($json);
         $estatusPeticion = $response->getStatusCode();
@@ -142,14 +96,17 @@ class UsersController extends AppController
         else
         {
             echo('Error al crear el usuario. Código del error: ' . $estatusPeticion);
-        }
+        } */
 
         // Cakephp read
         /* $http = new Client();
-        $response = $http->get('https://tumundobienesraices.com/wp-json/wp/v2/users/9',
+        // $response = $http->get('https://tumundobienesraices.com/wp-json/wp/v2/users/9',
+        $response = $http->get('http://localhost/redetron/wp-json/wp/v2/users/9',
             [], 
             ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
         ]);
+        print('<br />');
+        print('<br />');
         $json = $response->getJson();
         debug($json);
         $estatusPeticion = $response->getStatusCode();
@@ -180,7 +137,27 @@ class UsersController extends AppController
         else
         {
             echo('Error al intentar actualizar el usuario. Código del error: ' . $estatusPeticion);
-        } */        
+        } */
+
+        // Cakephp delete
+        /* $http = new Client();
+        $response = $http->delete('https://tumundobienesraices.com/wp-json/wp/v2/users/7', 
+            ['force' => true, 'reassign' => 1], 
+            ['auth' => ['username' => 'webmaster', 'password' => 'Redetrontumu@@2017*']
+        ]);
+        print('<br />');
+        print('<br />');
+        $json = $response->getJson();
+        debug($json);
+        $estatusPeticion = $response->getStatusCode();
+        if ($estatusPeticion < 300)
+        { 
+            echo('Usuario eliminado satisfactoriamente');
+        }
+        else
+        {
+            echo('Error al intentar eliminar el usuario. Código del error: ' . $estatusPeticion);
+        } */ 
     }
 
     public function login()
@@ -314,21 +291,15 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $usuarioTmbr = new TmbrUsersController;
-
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) 
-            {
-                $resultado = $usuarioTmbr->add($user);
-                if ($resultado == 0)
-                {
-                    $this->Flash->success(__('El usuario fue registrado satisfactoriamente.'));
-                    return $this->redirect(['controller' => 'users', 'action' => 'index']);
-                }
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('El usuario no pudo ser registrado. Por favor intente nuevamente.'));
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }

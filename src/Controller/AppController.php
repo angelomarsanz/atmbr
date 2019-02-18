@@ -55,7 +55,10 @@ class AppController extends Controller
                         'username' => 'username',
                         'password' => 'password'
                     ],
-                    'finder' => 'auth'
+                    'finder' => 'auth',
+                    'passwordHasher' => [
+                        'className' => 'Legacy',
+                    ]
                 ]
             ],
             'loginAction' => [
@@ -91,7 +94,7 @@ class AppController extends Controller
         if(isset($user['role']))
         {
             if ($user['role'] === 'Desarrollador del sistema' ||
-                $user['role'] === 'Administrador del sistema' ||
+                $user['role'] === 'Administrador(a) del sistema' ||
                 $user['role'] === 'Titular del sistema')
                 {
                     return true;

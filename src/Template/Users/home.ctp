@@ -1,6 +1,6 @@
 <div class="container">
     <br />
-    <h2>Bienvenido(a) <?= $this->Html->link($current_user['primer_apellido'] . ' ' . $current_user['primer_nombre'], ['controller' => 'Users', 'action' => 'edit', $current_user['id']], ['title' => 'Modificar mi perfil']) ?> ! </h2>
+    <h2>Hola <?= $this->Html->link($current_user['primer_nombre'], ['controller' => 'Users', 'action' => 'edit', $current_user['id']], ['title' => 'Modificar mi perfil']) ?> ! </h2>
     <div class="row">
         <div class="col col-sm-4">
             <?php if($current_user['profile_photo'] != '' && $current_user['role'] != null): ?>

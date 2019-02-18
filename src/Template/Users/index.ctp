@@ -223,39 +223,42 @@
 	</p>
 </div>
 <script>
-    function log(id) 
+function log(id) 
+{
+    window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>' + '/' + id + '/users/index');
+}
+
+$(document).ready(function(){
+
+    $('#user').autocomplete(
     {
-        window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "view"]); ?>' + '/' + id + '/users/index');
-    }
-    $(document).ready(function(){ 
-        $('#user').autocomplete(
-        {
-            source:'<?php echo Router::url(["controller" => "Users", "action" => "findUser"]); ?>',
-            minLength: 3,             
-            select: function( event, ui ) {
-                log(ui.item.id);
-              }
-        }); 
-		$('#mas').on('click',function()
-		{
-			$('#menu-menos').hide();
-			$('#menu-mas').show();
-		});
-		
-		$('#menos').on('click',function()
-		{
-			$('#menu-mas').hide();
-			$('#menu-menos').show();
-        });
+        source:'<?php echo Router::url(["controller" => "Users", "action" => "findUser"]); ?>',
+        minLength: 3,             
+        select: function( event, ui ) {
+            log(ui.item.id);
+            }
+    }); 
 
-        $('#filtro').change(function(e) 
-        {
-            e.preventDefault();
-        
-            // var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
-            // $.redirect('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>', {headers: {'X-CSRF-Token': csrfToken}} ,{filtro : 'Cliente'});
-
-            window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>' + '/' + $('#filtro').val());
-        });            
+    $('#mas').on('click',function()
+    {
+        $('#menu-menos').hide();
+        $('#menu-mas').show();
     });
+    
+    $('#menos').on('click',function()
+    {
+        $('#menu-mas').hide();
+        $('#menu-menos').show();
+    });
+
+    $('#filtro').change(function(e) 
+    {
+        e.preventDefault();
+    
+        // var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+        // $.redirect('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>', {headers: {'X-CSRF-Token': csrfToken}} ,{filtro : 'Cliente'});
+
+        window.location.assign('<?php echo Router::url(["controller" => "Users", "action" => "previo"]); ?>' + '/' + $('#filtro').val());
+    });
+});
 </script>

@@ -170,6 +170,10 @@ class SystemsTable extends Table
             ->maxLength('usuario_responsable', 255)
             ->allowEmptyString('usuario_responsable');
 
+        $validator
+            ->boolean('interruptor_sistema')
+            ->allowEmptyString('interruptor_sistema');
+
         return $validator;
     }
 
