@@ -46,19 +46,77 @@ class BinnaclesController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($novedad = null, $tipoClase = null, $nombreClase = null, $nombreMetodo = null, $arrayExtra = null)
     {
+        $this->autoRender = false;
+                            
         $binnacle = $this->Binnacles->newEntity();
-        if ($this->request->is('post')) {
-            $binnacle = $this->Binnacles->patchEntity($binnacle, $this->request->getData());
-            if ($this->Binnacles->save($binnacle)) {
-                $this->Flash->success(__('The binnacle has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+        $binnacle->novedad = $novedad;
+        
+        $binnacle->tipo_clase = $tipoClase;
+        
+        $binnacle->nombre_clase = $nombreClase;
+        
+        $binnacle->nombre_metodo = $nombreMetodo;
+        
+        if (isset($arrayExtra))
+        {
+            $contadorArray = 1;
+            
+            foreach ($arrayExtra as $arrayExtras)
+            {
+                if ($contadorArray == 1)
+                {
+                    $binnacle->columna_extra1 = $arrayExtras;
+                }
+                if ($contadorArray == 2)
+                {
+                    $binnacle->columna_extra2 = $arrayExtras;
+                }                  
+                if ($contadorArray == 3)
+                {
+                    $binnacle->columna_extra3 = $arrayExtras;
+                }
+                if ($contadorArray == 4)
+                {
+                    $binnacle->columna_extra4 = $arrayExtras;
+                }
+                if ($contadorArray == 5)
+                {
+                    $binnacle->columna_extra5 = $arrayExtras;
+                }
+                if ($contadorArray == 6)
+                {
+                    $binnacle->columna_extra6 = $arrayExtras;
+                }
+                if ($contadorArray == 7)
+                {
+                    $binnacle->columna_extra7 = $arrayExtras;
+                }
+                if ($contadorArray == 8)
+                {
+                    $binnacle->columna_extra8 = $arrayExtras;
+                }
+                if ($contadorArray == 9)
+                {
+                    $binnacle->columna_extra9 = $arrayExtras;
+                }
+                if ($contadorArray == 10)
+                {
+                    $binnacle->columna_extra10 = $arrayExtras;
+                }
+                $contadorArray++;
             }
-            $this->Flash->error(__('The binnacle could not be saved. Please, try again.'));
         }
-        $this->set(compact('binnacle'));
+        
+        $binnacle->usuario_responsable = $this->Auth->user('username');
+                
+        if (!($this->Binnacles->save($binnacle)))
+        {
+            $this->Flash->error(__('No se pudo grabar el registro en la tabla Binnacles'));
+        }
+        return;
     }
 
     /**

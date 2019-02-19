@@ -17,6 +17,8 @@ use Cake\Http\Client;
 
 use App\Controller\TmbrUsersController;
 
+use App\Controller\BinnaclesController;
+
 /**
  * Users Controller
  *
@@ -122,7 +124,7 @@ class UsersController extends AppController
 
         // print("<p><img src='http://localhost/public_html/redetron/angelomar2.JPG' width = 50 height = 60 class='img-thumbnail'/></p>");        
         // Cakephp create
-        $http = new Client();
+        /* $http = new Client();
         // $response = $http->post('https://dapliw.org.ve/wp-json/wp/v2/users', 
         // $response = $http->post('http://localhost/redetron/index.php/wp-json/wp/v2/users',
         // $response = $http->post('http://localhost/wordpressra/index.php/wp-json/wp/v2/users',
@@ -142,7 +144,7 @@ class UsersController extends AppController
         else
         {
             echo('Error al crear el usuario. Código del error: ' . $estatusPeticion);
-        }
+        } */
 
         // Cakephp read
         /* $http = new Client();
@@ -316,19 +318,29 @@ class UsersController extends AppController
     {
         $usuarioTmbr = new TmbrUsersController;
 
+        $binnacles = new BinnaclesController;
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) 
             {
                 $resultado = $usuarioTmbr->add($user);
-                if ($resultado == 0)
+                if ($resultado['codigo'] == 0)
                 {
                     $this->Flash->success(__('El usuario fue registrado satisfactoriamente.'));
                     return $this->redirect(['controller' => 'users', 'action' => 'index']);
                 }
+                else
+                {
+                    $this->Flash->error(__('El usuario . ' . $user->username . 'no pudo ser registrado en las tablas de Wordpress debido a: ' . $resultado['mensaje']));
+                }
             }
-            $this->Flash->error(__('El usuario no pudo ser registrado. Por favor intente nuevamente.'));
+            else
+            {
+                $binnacles->add('El usuario ' . $user->username . ' no pudo ser registrado en la tabla Users', 'controller', 'Users', 'add');
+                $this->Flash->error(__('El usuario ' . $user->username . ' no pudo ser registrado en la tabla Users'));
+            }
         }
         $this->set(compact('user'));
     }

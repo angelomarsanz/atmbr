@@ -7,6 +7,8 @@ use App\Controller\TmbrUsermetaController;
 
 use Cake\I18n\Time;
 
+use App\Controller\BinnaclesController;
+
 /**
  * TmbrUsers Controller
  *
@@ -54,7 +56,9 @@ class TmbrUsersController extends AppController
     {
         $this->autoRender = false;
 
-        $resultado = 0;
+        $binnacles = new BinnaclesController;
+
+        $resultado = ['codigo' => 0, 'mensaje' => 'Ok'];
 
         $usuarioMeta = new TmbrUsermetaController;
 
@@ -98,21 +102,22 @@ class TmbrUsersController extends AppController
                 foreach ($camposMeta as $clave => $valor)
                 {
                     $resultado = $usuarioMeta->add($fila->ID, $clave, $valor);
-                    if ($resultado > 0)
+                    if ($resultado['codigo'] > 0)
                     {
-                        $resultado = 1;
                         break;
                     }
                 }
             }
             else
             {
-                $resultado = 1;
+                $binnacles->add('No se encontró el usuario ' . $tmbrUser->user_login . ' en la tabla tmbr_users', 'controller', 'TmbrUsers', 'add');
+                $resultado = ['codigo' => 1, 'mensaje' => 'No se encontró el usuario ' . $tmbrUser->user_login . ' en la tabla tmbr_users'];
             }
         }
         else
         {
-            $resultado = 1;
+            $binnacles->add('No se pudo registrar el usuario ' . $tmbrUser->user_login . ' en la tabla tmbr_users', 'controller', 'TmbrUsers', 'add');
+            $resultado = ['codigo' => 1, 'mensaje' => 'No se pudo registrar el usuario ' . $tmbrUser->user_login . ' en la tabla tmbr_users'];
         }
         return $resultado;
     }

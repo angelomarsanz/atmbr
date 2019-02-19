@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use App\Controller\BinnaclesController;
+
 /**
  * TmbrUsermeta Controller
  *
@@ -53,7 +55,9 @@ class TmbrUsermetaController extends AppController
     {
         $this->autoRender = false;
 
-        $resultado = 0;
+        $binnacles = new BinnaclesController;
+
+        $resultado = ['codigo' => 0, 'mensaje' => 'Ok'];
 
         $tmbrUsermetum = $this->TmbrUsermeta->newEntity();
 
@@ -63,7 +67,8 @@ class TmbrUsermetaController extends AppController
 
         if (!($this->TmbrUsermeta->save($tmbrUsermetum))) 
         {
-            $resultado = 1;
+            $binnacles->add('No se pudo registrar el valor meta ' . $tmbrUsermetum->meta_key . ' del usuario Wordpress ' . $tmbrUsermetum->user_id . ' en la tabla tmbr_usermeta', 'controller', 'TmbrUsermeta', 'add');
+            $resultado = ['codigo' => 1, 'mensaje' => 'No se pudo registrar el valor meta ' . $tmbrUsermetum->meta_key . ' del usuario Wordpress ' . $tmbrUsermetum->user_id . ' en la tabla tmbr_usermeta'];
         }
         return $resultado;
     }
