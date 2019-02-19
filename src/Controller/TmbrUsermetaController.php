@@ -55,11 +55,7 @@ class TmbrUsermetaController extends AppController
 
         $resultado = 0;
 
-        $this->Flash->success(__('ID : ' . $id . ' Clave: ' . $clave . ' Valor: ' . $valor));
-
         $tmbrUsermetum = $this->TmbrUsermeta->newEntity();
-
-        debug($tmbrUsermetum);
 
         $tmbrUsermetum->user_id = $id;
         $tmbrUsermetum->meta_key = $clave;

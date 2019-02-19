@@ -60,8 +60,6 @@ class TmbrUsersController extends AppController
 
         $tmbrUser = $this->TmbrUsers->newEntity();
 
-        debug($tmbrUser);
-
         $tmbrUser->user_login = $user->username;
         $tmbrUser->user_pass = $user->password;
         $tmbrUser->user_nicename = $user->username;
@@ -94,8 +92,8 @@ class TmbrUsersController extends AppController
                     'use_ssl' => 0,
                     'show_admin_bar_front' => true,
                     'locale' => '',
-                    'wp_capabilities' => 'a:1:{s:10:"subscriber";b:1;}',
-                    'wp_user_level' => 0];
+                    'tmbr_capabilities' => 'a:1:{s:10:"subscriber";b:1;}',
+                    'tmbr_user_level' => 0];
 
                 foreach ($camposMeta as $clave => $valor)
                 {
